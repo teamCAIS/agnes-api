@@ -13,7 +13,7 @@ server.register(SchoolsRouter);
 const start = async () => {
     try {
         await server.listen(PORT);
-        console.log('Server started successfully');
+        console.log(`Server started successfully on PORT ${PORT}`);
     } catch (err) {
         server.log.error(err);
         process.exit(1);
