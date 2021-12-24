@@ -1,17 +1,19 @@
 require('dotenv/config');
 
 const { fastify } = require('fastify');
+const fastifySwagger = require('fastify-swagger');
 
-const db = require('./config');
+const db = require('./config/db');
+const swaggerConfig = require('./config/docs');
 const SchoolsRouter = require('./routes/school.routes');
 
 const PORT = process.env.PORT || 8000;
 const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/agnes';
 const server = fastify();
 
-console.log(uri);
-
 server.register(db, {uri});
+server.register(fastifySwagger, swaggerConfig);
+
 server.register(SchoolsRouter);
 
 const start = async () => {

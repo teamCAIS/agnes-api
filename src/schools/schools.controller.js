@@ -19,27 +19,31 @@ class SchoolController {
 
     async getAll(request, reply) {
         const {coordinates: coordinatesStr, grade: gradeStr, tags: tagsStr, radius} = request.query;
-        const [latitude, longitude] = coordinatesStr.split(',');
-
-        const coordinates = [longitude, latitude];
-        const tags = tagsStr.split(',');
+        const where = {};
         let sortAlphabetically = false;
 
-        const where = {};
+        if (coordinatesStr) {
+            const [latitude, longitude] = coordinatesStr.split(',');
+            const coordinates = [longitude, latitude];
 
-        if (!radius && !latitude && !longitude) {
-            sortAlphabetically = true;
-        } else if (radius && latitude && longitude) {
-            const kmRadius = parseInt(radius) * 1000;
-            where.location = {
-                $near: {
-                    $geometry: {
-                        type: "Point",
-                        coordinates,
+            if (!radius && !latitude && !longitude) {
+                sortAlphabetically = true;
+            } else if (radius && latitude && longitude) {
+                const kmRadius = parseInt(radius) * 1000;
+                where.location = {
+                    $near: {
+                        $geometry: {
+                            type: "Point",
+                            coordinates,
+                        },
+                        $maxDistance: kmRadius,
                     },
-                    $maxDistance: kmRadius,
-                },
+                }
             }
+        }
+
+        if (tagsStr) {
+            const tags = tagsStr.split(',');
         }
 
         if (gradeStr) {
