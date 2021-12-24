@@ -2,6 +2,7 @@ require('dotenv/config');
 
 const { fastify } = require('fastify');
 const fastifySwagger = require('fastify-swagger');
+const fastifyCors = require('fastify-cors');
 
 const db = require('./config/db');
 const swaggerConfig = require('./config/docs');
@@ -11,6 +12,9 @@ const PORT = process.env.PORT || 8000;
 const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/agnes';
 const server = fastify();
 
+server.register(fastifyCors, {
+  origin: '*'
+});
 server.register(db, {uri});
 server.register(fastifySwagger, swaggerConfig);
 
