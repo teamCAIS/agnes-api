@@ -1,46 +1,106 @@
-const schoolModel = require('./schools.model');
+const School = require('./schools.model');
 
 class SchoolController {
     async get(request, reply) {
-        reply.code(200).send({ok: true});
-        // try {
-        //     const ID = request.params.id;
-        //     const { Blog } = server.db.models;
-        //     const blog = await Blog.findById(ID);
-        //     if (!blog) {
-        //         return reply.send(404);
-        //     }
-        //     return reply.code(200).send(blog);
-        // } catch (error) {
-        //     request.log.error(error);
-        //     return reply.send(400);
-        // }
+        try {
+            const id = request.params.id;
+            const school = await School.findById(id);
+
+            if (!school) {
+                return reply.send(404);
+            }
+
+            return reply.code(200).send(school);
+        } catch (error) {
+            request.log.error(error);
+            return reply.send(400);
+        }
     }
 
     async getAll(request, reply) {
-        const location = {
-            type: "location",
-            coordinates: [-38.5360525, -3.7443675],
-        };
+        const {coordinates: coordinatesStr, grade: gradeStr, tags: tagsStr, radius} = request.query;
+        const [latitude, longitude] = coordinatesStr.split(',');
 
-        reply.code(200).send({
-          name: 'Instituto Federal de Educação, Ciência e Tecnologia do Ceará - IFCE',
-          address: 'Avenida 13 de maio',
-          location,
-          grade: 0.0
-        });
+        const coordinates = [longitude, latitude];
+        const tags = tagsStr.split(',');
+        let sortAlphabetically = false;
+
+        const where = {};
+
+        if (!radius && !latitude && !longitude) {
+            sortAlphabetically = true;
+        } else if (radius && latitude && longitude) {
+            const kmRadius = parseInt(radius) * 1000;
+            where.location = {
+                $near: {
+                    $geometry: {
+                        type: "Point",
+                        coordinates,
+                    },
+                    $maxDistance: kmRadius,
+                },
+            }
+        }
+
+        if (gradeStr) {
+            where.grade = {
+                $gte: parseFloat(gradeStr),
+            }
+        }
+
+        try {
+            let schools;
+
+            if (sortAlphabetically) {
+                schools = await School.find(where).sort('name');
+            } else {
+                schools = await School.find(where);
+            }
+            return reply.code(200).send(schools);
+        } catch (error) {
+            request.log.error(error);
+            return reply.send(400);
+        }
     }
 
-    async create() {
-
+    async create(request, reply) {
+        try {
+            const data = request.body;
+            const school = await School.create(data);
+            return reply.code(200).send(school);
+        } catch (error) {
+            request.log.error(error);
+            return reply.send(400);
+        }
     }
 
-    async update() {
-
+    async update(request, reply) {
+        try {
+            const id = request.params.id;
+            const data = request.body;
+            const school = await School.updateOne({
+                id,
+            }, data);
+            return reply.code(200).send(school);
+        } catch (error) {
+            request.log.error(error);
+            return reply.send(400);
+        }
     }
 
-    async delete() {
-
+    async delete(request, reply) {
+        try {
+            const id = request.params.id;
+            await School.deleteOne({
+                id,
+            });
+            return reply.code(200).send({
+                ok: true,
+            });
+        } catch (error) {
+            request.log.error(error);
+            return reply.send(400);
+        }
     }
 }
 

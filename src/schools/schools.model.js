@@ -12,6 +12,18 @@ const pointSchema = new Schema({
     }
  });
 
+ const schoolTagSchema = new Schema({
+    tag: {
+        type: String,
+        required: true,
+    },
+    count: {
+        type: Number,
+        required: true,
+        default: 0,
+    },
+ });
+
 const schoolSchema = new Schema({
     name: {
         type: String,
@@ -29,6 +41,11 @@ const schoolSchema = new Schema({
         type: Number,
         required: false,
         default: 0.0,
+    },
+    tags: {
+        type: [schoolTagSchema],
+        required: true,
+        default: [],
     }
 }, {
     timestamps: true,

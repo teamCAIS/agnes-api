@@ -1,3 +1,5 @@
+require('dotenv/config');
+
 const { fastify } = require('fastify');
 
 const db = require('./config');
@@ -6,6 +8,8 @@ const SchoolsRouter = require('./routes/school.routes');
 const PORT = process.env.PORT || 8000;
 const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/agnes';
 const server = fastify();
+
+console.log(uri);
 
 server.register(db, {uri});
 server.register(SchoolsRouter);
