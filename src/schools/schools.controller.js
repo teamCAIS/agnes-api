@@ -18,9 +18,13 @@ class SchoolController {
     }
 
     async getAll(request, reply) {
-        const {coordinates: coordinatesStr, grade: gradeStr, tags: tagsStr, radius} = request.query;
+        const {search, coordinates: coordinatesStr, grade: gradeStr, tags: tagsStr, radius} = request.query;
         const where = {};
         let sortAlphabetically = false;
+
+        if (search) {
+            where.name = { '$regex' : search, '$options' : 'i' }
+        }
 
         if (coordinatesStr) {
             const [latitude, longitude] = coordinatesStr.split(',');

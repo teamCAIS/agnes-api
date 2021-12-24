@@ -10,8 +10,12 @@ const SchoolsRouter = async (server, options) => {
         summary: 'Listar escolas',
         query: {
           type: 'object',
-          description: 'Filtros',
           properties: {
+            search: {
+              type: 'string',
+              description: 'Nome da escola (EX: "Colegio")',
+              default: 'Colegio'
+            },
             coordinates: {
               type: 'string',
               description: 'Coordenadas do usuário (EX: "-3.727287,-38.544684")',
