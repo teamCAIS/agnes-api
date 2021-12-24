@@ -1,6 +1,7 @@
 const swaggerConfig = {
     routePrefix: '/docs',
     swagger: {
+      hiddenTag: "default",
       info: {
         title: 'AGNES API',
         description: 'Documentação do sistema AGNES',

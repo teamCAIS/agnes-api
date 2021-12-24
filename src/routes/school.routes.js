@@ -14,11 +14,13 @@ const SchoolsRouter = async (server, options) => {
           properties: {
             coordinates: {
               type: 'string',
-              description: 'Coordenadas do usuário (Ex: "-3.727287,-38.544684")',
+              description: 'Coordenadas do usuário (EX: "-3.727287,-38.544684")',
+              default: '-3.727287,-38.544684'
             },
             radius: {
               type: 'number',
-              description: 'Raio de busca em KM (Ex: "10")'
+              description: 'Raio de busca em KM (EX: "1")',
+              default: 1,
             },
             grade: {
               type: 'number',
@@ -32,10 +34,26 @@ const SchoolsRouter = async (server, options) => {
         }
       }
     }, schoolsController.getAll);
-    server.get('/schools/:id', {}, schoolsController.get);
-    server.post('/schools', {}, schoolsController.create);
-    server.put('/schools/:id', {}, schoolsController.update);
-    server.delete('/schools/:id', {}, schoolsController.delete);
+    server.get('/schools/:id', {
+      schema: {
+        tags: ['X-HIDDEN'],
+      }
+    }, schoolsController.get);
+    server.post('/schools', {
+      schema: {
+        tags: ['X-HIDDEN'],
+      }
+    }, schoolsController.create);
+    server.put('/schools/:id', {
+      schema: {
+        tags: ['X-HIDDEN'],
+      }
+    }, schoolsController.update);
+    server.delete('/schools/:id', {
+      schema: {
+        tags: ['X-HIDDEN'],
+      }
+    }, schoolsController.delete);
   };
 
   module.exports = fp(SchoolsRouter);
