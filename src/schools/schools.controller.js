@@ -12,13 +12,21 @@ class SchoolController {
 
             return reply.code(200).send(school);
         } catch (error) {
-            request.log.error(error);
-            return reply.send(400);
+            return reply.status(400).send(error);
         }
     }
 
     async getAll(request, reply) {
-        const {search, coordinates: coordinatesStr, grade: gradeStr, tags: tagsStr, radius} = request.query;
+        const {
+            search, 
+            coordinates: coordinatesStr, 
+            grade: gradeStr, 
+            tags: tagsStr, 
+            radius, 
+            page, 
+            limit = 10
+        } = request.query;
+
         const where = {};
         let sortAlphabetically = false;
 
@@ -59,15 +67,35 @@ class SchoolController {
         try {
             let schools;
 
-            if (sortAlphabetically) {
-                schools = await School.find(where).sort('name');
+            if (page) {
+                let options = {
+                    page,
+                    limit,
+                };
+
+                if (sortAlphabetically) {
+                    options.sort = 'name';
+                }
+                
+                const tempSchools = await School.find(where);
+                const ids = tempSchools.map(school => school._id);
+
+                schools = await School.paginate({
+                    '_id': {
+                        $in: ids
+                    },
+                }, options);
             } else {
-                schools = await School.find(where);
+                if (sortAlphabetically) {
+                    schools = await School.find(where).sort('name');
+                } else {
+                    schools = await School.find(where);
+                }
             }
+            
             return reply.code(200).send(schools);
         } catch (error) {
-            request.log.error(error);
-            return reply.send(400);
+            return reply.status(400).send(error);
         }
     }
 
@@ -77,8 +105,7 @@ class SchoolController {
             const school = await School.create(data);
             return reply.code(200).send(school);
         } catch (error) {
-            request.log.error(error);
-            return reply.send(400);
+            return reply.status(400).send(error);
         }
     }
 
@@ -91,8 +118,7 @@ class SchoolController {
             }, data);
             return reply.code(200).send(school);
         } catch (error) {
-            request.log.error(error);
-            return reply.send(400);
+            return reply.status(400).send(error);
         }
     }
 
@@ -106,8 +132,7 @@ class SchoolController {
                 ok: true,
             });
         } catch (error) {
-            request.log.error(error);
-            return reply.send(400);
+            return reply.status(400).send(error);
         }
     }
 }

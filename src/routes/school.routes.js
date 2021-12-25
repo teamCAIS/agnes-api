@@ -11,20 +11,25 @@ const SchoolsRouter = async (server, options) => {
         query: {
           type: 'object',
           properties: {
+            page: {
+              type: 'number',
+              description: 'Paginação (EX: "1")',
+            },
+            limit: {
+              type: 'number',
+              description: 'Limite de documentos por página (EX: "10")',
+            },
             search: {
               type: 'string',
               description: 'Nome da escola (EX: "Colegio")',
-              default: 'Colegio'
             },
             coordinates: {
               type: 'string',
               description: 'Coordenadas do usuário (EX: "-3.727287,-38.544684")',
-              default: '-3.727287,-38.544684'
             },
             radius: {
               type: 'number',
               description: 'Raio de busca em KM (EX: "1")',
-              default: 1,
             },
             grade: {
               type: 'number',

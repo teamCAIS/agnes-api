@@ -1,4 +1,5 @@
 const {Schema, model} = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
 
 const pointSchema = new Schema({
     type: {
@@ -50,6 +51,8 @@ const schoolSchema = new Schema({
 }, {
     timestamps: true,
 });
+
+schoolSchema.plugin(mongoosePaginate);
 
 const schoolModel = model("school", schoolSchema);
 

@@ -13,7 +13,7 @@ const swaggerConfig = {
       produces: ['application/json'],
       tags: [
         { name: 'school', description: 'End-points relacionados a escola' },
-        { name: 'user', description: 'End-points relacionados ao usuário' },
+        { name: 'student', description: 'End-points relacionados ao estudante' },
         { name: 'evaluation', description: 'End-points relacionados a avaliação' }
       ],
       definitions: {
@@ -28,6 +28,18 @@ const swaggerConfig = {
             grade: {type: 'number'},
             tags: {type: 'array of tag'},
           }
+        },
+        Student: {
+          type: 'object',
+          required: ['id', 'name', 'email', 'password', 'school'],
+          properties: {
+            id: {type: 'string'},
+            name: {type: 'string'},
+            email: {type: 'string'},
+            password: {type: 'string'},
+            school: {type: 'School'},
+            photo: {type: 'string'},
+          },
         }
       },
       securityDefinitions: {
