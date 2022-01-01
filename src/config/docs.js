@@ -1,25 +1,25 @@
 const swaggerConfig = {
     routePrefix: '/docs',
     swagger: {
-      hiddenTag: "default",
       info: {
         title: 'AGNES API',
         description: 'Documentação do sistema AGNES',
         version: '1.0.0'
       },
-      host: 'agnes-api.herokuapp.com',
+      host: 'localhost:8000',
       schemes: ['http'],
       consumes: ['application/json'],
       produces: ['application/json'],
       tags: [
         { name: 'school', description: 'End-points relacionados a escola' },
         { name: 'student', description: 'End-points relacionados ao estudante' },
+        { name: 'tag', description: 'End-points relacionados a tag' },
         { name: 'evaluation', description: 'End-points relacionados a avaliação' }
       ],
       definitions: {
         School: {
           type: 'object',
-          required: ['id', 'email'],
+          required: ['email'],
           properties: {
             id: {type: 'string'},
             name: {type: 'string'},
@@ -31,7 +31,7 @@ const swaggerConfig = {
         },
         Student: {
           type: 'object',
-          required: ['id', 'name', 'email', 'password', 'school'],
+          required: ['name', 'email', 'password', 'school'],
           properties: {
             id: {type: 'string'},
             name: {type: 'string'},
@@ -40,14 +40,23 @@ const swaggerConfig = {
             school: {type: 'School'},
             photo: {type: 'string'},
           },
+        },
+        Tag: {
+          type: 'object',
+          required: ['name', 'color'],
+          properties: {
+            id: {type: 'string'},
+            name: {type: 'string'},
+            color: {type: 'string'}
+          }
         }
       },
-      securityDefinitions: {
-        apiKey: {
-          type: 'apiKey',
-          name: 'apiKey',
-          in: 'header'
-        }
+    },
+    securityDefinitions: {
+      apiKey: {
+        name: 'Authorization',
+        type: 'apiKey',
+        in: 'header'
       }
     },
     uiConfig: {

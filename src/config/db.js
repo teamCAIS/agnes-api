@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const schoolModel = require('../schools/schools.model');
 
-const ConnectDB = async (fastify, options) => {
+const ConnectDB = async (fastify, options, next) => {
     try {
         mongoose.connection.on('connected', () => {
             console.log('MongoDB connected');
@@ -25,6 +25,8 @@ const ConnectDB = async (fastify, options) => {
     } catch (error) {
         console.error(error);
     }
+
+    next();
 };
 
 module.exports = fp(ConnectDB);

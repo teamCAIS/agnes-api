@@ -71,6 +71,13 @@ class SchoolController {
                 let options = {
                     page,
                     limit,
+                    populate: {
+                        path: 'tags',
+                        populate: {
+                            path: 'tag',
+                            select: ['_id', 'name', 'color']
+                        },
+                    }
                 };
 
                 if (sortAlphabetically) {

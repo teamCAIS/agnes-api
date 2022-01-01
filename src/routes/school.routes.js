@@ -1,8 +1,9 @@
 
 const fp = require('fastify-plugin');
 const schoolsController = require('../schools/schools.controller');
+const checkToken = require('../middlewares/auth.middleware');
 
-const SchoolsRouter = async (server, options) => {
+const SchoolsRouter = async (server, options, next) => {
     server.get('/schools', {
       schema: {
         description: 'End-point para buscar escolas com filtros',
@@ -44,25 +45,31 @@ const SchoolsRouter = async (server, options) => {
       }
     }, schoolsController.getAll);
     server.get('/schools/:id', {
+      preValidation: checkToken,
       schema: {
         tags: ['X-HIDDEN'],
       }
     }, schoolsController.get);
     server.post('/schools', {
+      preValidation: checkToken,
       schema: {
         tags: ['X-HIDDEN'],
       }
     }, schoolsController.create);
     server.put('/schools/:id', {
+      preValidation: checkToken,
       schema: {
         tags: ['X-HIDDEN'],
       }
     }, schoolsController.update);
     server.delete('/schools/:id', {
+      preValidation: checkToken,
       schema: {
         tags: ['X-HIDDEN'],
       }
     }, schoolsController.delete);
+
+    next();
   };
 
   module.exports = fp(SchoolsRouter);

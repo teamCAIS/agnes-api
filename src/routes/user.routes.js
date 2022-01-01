@@ -3,7 +3,7 @@ const fp = require('fastify-plugin');
 const checkEmail = require('../middlewares/signup.middleware');
 const userController = require('../users/users.controller');
 
-const UserRouter = async (server, options) => {
+const UserRouter = async (server, options, next) => {
     server.post('/students', {
       schema: {
         description: 'End-point para criar novo usuário estudante',
@@ -53,6 +53,8 @@ const UserRouter = async (server, options) => {
         }
       }
       }, userController.signIn);
+
+      next();
   };
 
   module.exports = fp(UserRouter);

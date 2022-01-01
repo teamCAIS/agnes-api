@@ -4,16 +4,18 @@ const jwt = require('jsonwebtoken');
 
 const SECRET_KEY = process.env.SECRET_KEY || 'custom_secret_key';
 
-const checkToken = async (request, reply, next) => {
+const checkToken = async (request, reply) => {
   try {
     const fullToken = request.headers["Authorization"] || request.headers["authorization"];
+    if (!fullToken) {
+      throw Error("Envie o token na requisição");
+    }
+
     const [type, token] = fullToken.split(' ');
 
     if (!token) {
         throw Error("Envie o token na requisição");
     }
-
-    console.log(token);
 
     jwt.verify(token, SECRET_KEY, (err, decoded) => {
         if (err) {
@@ -21,7 +23,7 @@ const checkToken = async (request, reply, next) => {
         }
 
         request.userId = decoded.id;
-        next();
+        return;
     });
   } catch (error) {
     return reply.status(400).send(error);

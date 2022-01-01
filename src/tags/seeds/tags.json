@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Teste 1",
+        "color": "#00ffff"
+    },
+    {
+        "name": "Teste 2 só que uma string maior",
+        "color": "#ff00ff"
+    },
+    {
+        "name": "Teste 3",
+        "color": "#ffff00"
+    }
+]

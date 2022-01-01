@@ -21,6 +21,7 @@
   "scripts": {
     "start": "node ./src/index.js",
     "start:dev": "nodemon --ignore '*.json' ./src/index.js",
-    "seed:schools": "node ./src/schools/seeds/schools.seed.js"
+    "seed:schools": "node ./src/schools/seeds/schools.seed.js",
+    "seed:tags": "node ./src/tags/seeds/tags.seed.js"
   }
 }

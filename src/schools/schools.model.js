@@ -15,7 +15,8 @@ const pointSchema = new Schema({
 
  const schoolTagSchema = new Schema({
     tag: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'tag',
         required: true,
     },
     count: {

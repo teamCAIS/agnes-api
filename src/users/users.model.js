@@ -24,6 +24,7 @@ const userSchema = new Schema({
     },
     school: {
         type: Schema.Types.ObjectId,
+        ref: 'school',
         required: true,
     },
 }, {
