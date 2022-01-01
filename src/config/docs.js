@@ -6,7 +6,7 @@ const swaggerConfig = {
         description: 'Documentação do sistema AGNES',
         version: '1.0.0'
       },
-      host: 'localhost:8000',
+      host: 'agnes-api.herokuapp.com',
       schemes: ['http'],
       consumes: ['application/json'],
       produces: ['application/json'],
