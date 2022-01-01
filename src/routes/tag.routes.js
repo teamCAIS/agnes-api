@@ -10,6 +10,11 @@ const TagsRouter = async (server, options, next) => {
         description: 'End-point para buscar tags',
         tags: ['tag'],
         summary: 'Listar tags',
+        security: [
+          {
+            Bearer: [],
+          },
+        ],
       }
     }, tagsController.getAll);
     server.get('/tags/:id', {

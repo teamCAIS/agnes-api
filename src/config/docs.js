@@ -1,12 +1,23 @@
 const swaggerConfig = {
     routePrefix: '/docs',
+    openapi: {
+      components: {
+        securitySchemes: {
+          Bearer: {
+            type: "http",
+            scheme: "bearer",
+          },
+        },
+      },
+    },
     swagger: {
       info: {
         title: 'AGNES API',
         description: 'Documentação do sistema AGNES',
         version: '1.0.0'
       },
-      host: 'agnes-api.herokuapp.com',
+      // host: 'agnes-api.herokuapp.com',
+      host: 'localhost:8000',
       schemes: ['http'],
       consumes: ['application/json'],
       produces: ['application/json'],
@@ -26,18 +37,18 @@ const swaggerConfig = {
             address: {type: 'string'},
             location: {type: 'point'},
             grade: {type: 'number'},
-            tags: {type: 'array of tag'},
+            tags: {type: 'TagCount[]'},
           }
         },
         Student: {
           type: 'object',
           required: ['name', 'email', 'password', 'school'],
           properties: {
-            id: {type: 'string'},
+            id: {type: 'ObjectID'},
             name: {type: 'string'},
             email: {type: 'string'},
             password: {type: 'string'},
-            school: {type: 'School'},
+            school: {type: 'ObjectID'},
             photo: {type: 'string'},
           },
         },
@@ -45,20 +56,41 @@ const swaggerConfig = {
           type: 'object',
           required: ['name', 'color'],
           properties: {
-            id: {type: 'string'},
+            id: {type: 'ObjectID'},
             name: {type: 'string'},
             color: {type: 'string'}
+          }
+        },
+        TagCount: {
+          type: 'object',
+          required: ['name', 'color'],
+          properties: {
+            id: {type: 'ObjectID'},
+            tag: {type: 'ObjectID'},
+            count: {type: 'number'}
+          }
+        },
+        Evaluation: {
+          type: 'object',
+          required: ['name', 'color'],
+          properties: {
+            id: {type: 'ObjectID'},
+            school: {type: 'ObjectID'},
+            student: {type: 'ObjectID'},
+            grade: {type: 'number'},
+            comment: {type: 'string'},
+            tags: {type: 'Tag[]'}
           }
         }
       },
     },
-    securityDefinitions: {
-      apiKey: {
-        name: 'Authorization',
-        type: 'apiKey',
-        in: 'header'
-      }
-    },
+    // securityDefinitions: {
+    //   apiKey: {
+    //     name: 'Authorization',
+    //     type: 'apiKey',
+    //     in: 'header'
+    //   }
+    // },
     uiConfig: {
       docExpansion: 'full',
       deepLinking: false

@@ -10,29 +10,7 @@ const EvaluationsRouter = async (server, options, next) => {
         tags: ['X-HIDDEN'],
       }
     }, evaluationController.getAll);
-    server.get('/evaluations/has-evaluated', {
-      preValidation: checkToken,
-      schema: {
-        description: 'End-point para checar se estudante avaliou escola',
-        tags: ['evaluation'],
-        summary: 'Checar avaliação',
-        query: {
-          type: 'object',
-          properties: {
-            school: {
-              type: 'string',
-              description: 'ID da escola (EX: "61c5f158b8d02f37f0f57101")',
-            },
-            student: {
-              type: 'string',
-              description: 'ID do(a) estudante (EX: "61c5f158b8d02f37f0f57101")',
-            },
-          }
-        }
-      }
-    }, evaluationController.hasEvaluated);
     server.get('/evaluations/comments', {
-      preValidation: checkToken,
       schema: {
         description: 'End-point para buscar comentários e notas por escola',
         tags: ['evaluation'],
@@ -62,12 +40,43 @@ const EvaluationsRouter = async (server, options, next) => {
         tags: ['X-HIDDEN'],
       }
     }, evaluationController.get);
+    server.get('/evaluations/has-evaluated', {
+      preValidation: checkToken,
+      schema: {
+        description: 'End-point para checar se estudante avaliou escola',
+        tags: ['evaluation'],
+        summary: 'Checar avaliação',
+        security: [
+          {
+            Bearer: [],
+          },
+        ],
+        query: {
+          type: 'object',
+          properties: {
+            school: {
+              type: 'string',
+              description: 'ID da escola (EX: "61c5f158b8d02f37f0f57101")',
+            },
+            student: {
+              type: 'string',
+              description: 'ID do(a) estudante (EX: "61c5f158b8d02f37f0f57101")',
+            },
+          }
+        }
+      }
+    }, evaluationController.hasEvaluated);
     server.post('/evaluations', {
       preValidation: checkToken,
       schema: {
         description: 'End-point para avaliar escola',
         tags: ['evaluation'],
         summary: 'Avaliar escola',
+        security: [
+          {
+            Bearer: [],
+          },
+        ],
         body: {
           type: 'object',
           properties: {
