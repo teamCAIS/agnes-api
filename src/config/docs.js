@@ -16,8 +16,8 @@ const swaggerConfig = {
         description: 'Documentação do sistema AGNES',
         version: '1.0.0'
       },
-      // host: 'agnes-api.herokuapp.com',
-      host: 'localhost:8000',
+      host: 'agnes-api.herokuapp.com',
+      // host: 'localhost:8000',
       schemes: ['http'],
       consumes: ['application/json'],
       produces: ['application/json'],
@@ -84,13 +84,6 @@ const swaggerConfig = {
         }
       },
     },
-    // securityDefinitions: {
-    //   apiKey: {
-    //     name: 'Authorization',
-    //     type: 'apiKey',
-    //     in: 'header'
-    //   }
-    // },
     uiConfig: {
       docExpansion: 'full',
       deepLinking: false
