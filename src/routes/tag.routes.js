@@ -5,7 +5,6 @@ const checkToken = require('../middlewares/auth.middleware');
 
 const TagsRouter = async (server, options, next) => {
     server.get('/tags', {
-      preValidation: checkToken,
       schema: {
         description: 'End-point para buscar tags',
         tags: ['tag'],
