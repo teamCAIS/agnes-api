@@ -110,6 +110,10 @@ class SchoolController {
 
         if (tagsStr) {
             const tags = tagsStr.split(',');
+
+            where["tags.tag"] = {
+                $in: tags,
+            };
         }
 
         if (gradeStr) {
